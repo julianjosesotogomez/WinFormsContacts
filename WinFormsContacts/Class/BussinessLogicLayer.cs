@@ -24,15 +24,23 @@ namespace WinFormsContacts.Class
             if (contactModel.id == 0)
             {
                 _dataAccessLayer.InsertContact(contactModel);
-            } 
-            //else
-            //_dataAccessLayer.UpdateContact
+            }
+            else
+            {
+                _dataAccessLayer.UpdateContact(contactModel);
+            }
+
             return contactModel;
         }
 
-        public List<ContactModel> GetContacts()
+        public List<ContactModel> GetContacts(string searchText =  null)
         {
-            _dataAccessLayer
+           return _dataAccessLayer.GetContacts(searchText);
+        }
+
+        public void DeleContact(int id)
+        {
+            _dataAccessLayer.DeleteContact(id);
         }
     }
 }

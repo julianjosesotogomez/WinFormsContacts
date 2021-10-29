@@ -15,6 +15,7 @@ namespace WinFormsContacts
     public partial class ContactDetails : Form
     {
         public BussinessLogicLayer _bussinessLogicLayer;
+        private ContactModel _contact;
 
         public ContactDetails()
         {
@@ -35,6 +36,8 @@ namespace WinFormsContacts
         private void btnSave_Click(object sender, EventArgs e)
         {
             SaveContact();
+            this.Close();
+            ((Main)this.Owner).PopulateContacts();
         }
 
         private void SaveContact()
@@ -45,8 +48,30 @@ namespace WinFormsContacts
             contactModel.Phone = txtPhone.Text;
             contactModel.Address = txtAddress.Text;
 
-            _bussinessLogicLayer.SaveContact(contactModel);
+            contactModel.id = _contact != null ? _contact.id : 0;
 
+            _bussinessLogicLayer.SaveContact(contactModel);
+        }
+
+        public void LoadContact(ContactModel contactModel)
+        {
+            _contact = contactModel;
+            if (contactModel != null)
+            {
+                ClearForm();
+                txtFirstName.Text = contactModel.FirstName;
+                txtLastName.Text = contactModel.LastName;
+                txtPhone.Text = contactModel.Phone;
+                txtAddress.Text = contactModel.Address;
+            }
+        }
+
+        private void ClearForm()
+        {
+            txtFirstName.Text = string.Empty;
+            txtLastName.Text = string.Empty;
+            txtPhone.Text = string.Empty;
+            txtAddress.Text = string.Empty;
         }
     }
 }
